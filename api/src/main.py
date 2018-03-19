@@ -6,16 +6,17 @@ app = Flask(__name__)
 
 @app.route('/info', methods=["POST"])
 def endpointInfo():
-    ls = str(subprocess.Popen("echo Hello World", shell=True, stdout=subprocess.PIPE).stdout.read())
     args = request.json["args"]
+    containers = str(subprocess.Popen("docker ps", shell=True, stdout=subprocess.PIPE).stdout.read())
     return jsonify({
-        "title": "NO INFO",
-        "message": "No informations available for this container.\n" + args
+        "title": "CONTAINERS",
+        "message": "Running containers :\n" + containers
     })
 
 
 @app.route('/logs', methods=["POST"])
 def endpointLogs():
+    args = request.json["args"]
     return jsonify({
         "title": "NO LOGS",
         "message": "No logs available for this container."
