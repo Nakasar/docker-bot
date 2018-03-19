@@ -1,8 +1,7 @@
 module.exports = function(robot) {
     function apiCall(path, callback) {
-      console.log('Call to: http://api:5000' + path)
       require('request')('http://api:5000' + path, (e, r, b) => {
-	callback(e, r, b);
+        callback(e, r, b);
       })
     }
 
@@ -17,9 +16,7 @@ module.exports = function(robot) {
     robot.hear(/alerte/i, function(message) {
       apiCall("/rich", (err, res, body) => {
         if (!err && res.statusCode == 200) {
-	  let data = JSON.parse(body);
-	  console.log(message.message.room);
-	  console.log(message.rid);
+          let data = JSON.parse(body);
           robot.messageRoom(message.message.room, {
             channel: message.message.room,
             attachments: [{
