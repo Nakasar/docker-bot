@@ -28,7 +28,7 @@ module.exports = function(robot) {
       case "logs":
         request({
           baseUrl: apiUrl,
-          uri: "/info",
+          uri: "/logs",
           method: "POST",
           json: true,
           body: {
@@ -40,7 +40,7 @@ module.exports = function(robot) {
       case "admin":
         request({
           baseUrl: apiUrl,
-          uri: "/info",
+          uri: "/admin",
           method: "POST",
           json: true,
           body: {
@@ -113,14 +113,7 @@ module.exports = function(robot) {
     Handle the API response to an "Admin" command.
   */
   function handleAdminResponse(err, res, body, message) {
-    robot.messageRoom(message.message.room, {
-      channel: message.message.room,
-      attachments: [{
-        title: "DOCKER ADMIN",
-        text: 'Non implémenté.',
-        color: "#00BB00"
-      }]
-    });
+    sendError(message, { error: "Une erreur inconue est survenue en lançant l'administration du container.", title: "Oups :'(" });
   }
 
   /**
