@@ -75,16 +75,18 @@ module.exports = function(robot) {
   }
 
   function handleInfoResponse(err, res, body, message) {
-    console.log(err)
-    console.log(body)
-    robot.messageRoom(message.message.room, {
-      channel: message.message.room,
-      attachments: [{
-        title: "DOCKER INFO",
-        text: 'Non implémenté.',
-        color: "#00BB00"
-      }]
-    });
+    if (err) {
+      sendError(message, { error: "Une erreur inconue est survenue."});
+    } else {
+      robot.messageRoom(message.message.room, {
+        channel: message.message.room,
+        attachments: [{
+          title: body.title,
+          text: body.message,
+          color: "#00BB00"
+        }]
+      });
+    }
   }
 
   function handleLogsResponse(err, res, body, message) {
@@ -105,6 +107,17 @@ module.exports = function(robot) {
         title: "DOCKER ADMIN",
         text: 'Non implémenté.',
         color: "#00BB00"
+      }]
+    });
+  }
+
+  function sendError(message, errorObject) {
+    robot.messageRoom(message.message.room, {
+      channel: message.message.room,
+      attachments: [{
+        title: "Erreur",
+        text: errorObject.error,
+        color: "#FF0000"
       }]
     });
   }
