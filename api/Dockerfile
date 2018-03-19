@@ -5,6 +5,6 @@ RUN pip install numpy && \
     pip install Flask && \
     pip install Flask_restful
 
-ADD main.py /
+#ADD src/main.py /src/
 
-CMD ["python", "main.py"]
+CMD ["python", "src/main.py"]

@@ -11,6 +11,8 @@ services:
     api:
         build: ./api
         restart: on-failure
+        volumes:
+            - ./api/src /src
         depends_on:
             - mongo
         links:
@@ -29,6 +31,8 @@ services:
 
     bot:
         build: ./bot
+        volumes:
+            - ./bot/scripts:/hubot/scripts
         restart: on-failure
         links:
             - api
