@@ -12,7 +12,7 @@ services:
         build: ./api
         restart: on-failure
         volumes:
-            - ./api/src /src
+            - ./api/src:/src
         depends_on:
             - mongo
         links:
