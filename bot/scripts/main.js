@@ -1,3 +1,9 @@
 module.exports = function(robot) {
-    console.log('Bot started');    
+    robot.respond(/salut/i, function(message) {
+        require('request')('http://api:5000', (e, r, b) => {
+            if (!e && r.statusCode == 200) {
+                message.send(b);
+            }
+        });
+    });
 }
