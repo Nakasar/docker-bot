@@ -1,7 +1,7 @@
+const request = require('request');
+const apiUrl = "http://api:5000";
+
 module.exports = function(robot) {
-  function apiCall(path, callback) {
-    require('request')('http://api:5000' + path, callback);
-  }
 
   /**
     dockerbot listens to channels and responds to its prefix.
@@ -14,13 +14,40 @@ module.exports = function(robot) {
         helpCommand(message);
         break;
       case "info":
-        apiCall("/info?args=" + args.join(" "), (err, res, body) => handleInfoResponse(err, res, body, message))
+        request({
+          baseUrl: apiUrl,
+          uri: "/info",
+          method: "POST",
+          json: true,
+          body: {
+            args: args.join(" ")
+          },
+          callback: handleInfoResponse(err, res, body, message)
+        });
         break;
       case "logs":
-        apiCall("/info?args=" + args.join(" "), (err, res, body) => handleLogsResponse(err, res, body, message))
+        request({
+          baseUrl: apiUrl,
+          uri: "/info",
+          method: "POST",
+          json: true,
+          body: {
+            args: args.join(" ")
+          },
+          callback: handleLogsResponse(err, res, body, message)
+        });
         break;
       case "admin":
-        apiCall("/info?args=" + args.join(" "), (err, res, body) => handleAdminResponse(err, res, body, message))
+        request({
+          baseUrl: apiUrl,
+          uri: "/info",
+          method: "POST",
+          json: true,
+          body: {
+            args: args.join(" ")
+          },
+          callback: handleAdminResponse(err, res, body, message)
+        });
         break;
       default:
         // Command not recognized.
