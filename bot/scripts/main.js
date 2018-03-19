@@ -1,6 +1,6 @@
 module.exports = function(robot) {
     function apiCall(path, callback) {
-      require('request')('http://api:5000' + path, (e, r, b) => callback);
+      require('request')('http://api:5000' + path, callback);
     }
 
     robot.respond(/salut/i, function(message) {
