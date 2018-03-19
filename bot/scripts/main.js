@@ -22,7 +22,7 @@ module.exports = function(robot) {
           body: {
             args: args.join(" ")
           },
-          callback: handleInfoResponse(err, res, body, message)
+          callback: (err, res, body) => handleInfoResponse(err, res, body, message)
         });
         break;
       case "logs":
@@ -34,7 +34,7 @@ module.exports = function(robot) {
           body: {
             args: args.join(" ")
           },
-          callback: handleLogsResponse(err, res, body, message)
+          callback: (err, res, body) => handleLogsResponse(err, res, body, message)
         });
         break;
       case "admin":
@@ -46,7 +46,7 @@ module.exports = function(robot) {
           body: {
             args: args.join(" ")
           },
-          callback: handleAdminResponse(err, res, body, message)
+          callback: (err, res, body) => handleAdminResponse(err, res, body, message)
         });
         break;
       default:
@@ -75,6 +75,8 @@ module.exports = function(robot) {
   }
 
   function handleInfoResponse(err, res, body, message) {
+    console.log(err)
+    console.log(body)
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
       attachments: [{
