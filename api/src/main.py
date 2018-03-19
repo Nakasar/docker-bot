@@ -4,7 +4,7 @@ import subprocess
 app = Flask(__name__)
 
 
-@app.route('/info')
+@app.route('/info', methods=["POST"])
 def endpointInfo():
     ls = str(subprocess.Popen("echo Hello World", shell=True, stdout=subprocess.PIPE).stdout.read())
     args = request.json["args"]
@@ -14,7 +14,7 @@ def endpointInfo():
     })
 
 
-@app.route('/logs')
+@app.route('/logs', methods=["POST"])
 def endpointLogs():
     return jsonify({
         "title": "NO LOGS",
@@ -22,7 +22,7 @@ def endpointLogs():
     })
 
 
-@app.route('/admin')
+@app.route('/admin', methods=["POST"])
 def endpointAdmin():
     return jsonify({
         "title": "NO ADMIN",
