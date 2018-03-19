@@ -1,6 +1,9 @@
 module.exports = function(robot) {
     function apiCall(path, callback) {
-      robot.http("http://api:5000" + path).get(callback)
+      console.log('Call to: http://api:5000' + path)
+      require('request')('http://api:5000' + path, (e, r, b) => {
+	callback(e, r, b);
+      })
     }
 
     robot.respond(/salut/i, function(message) {
@@ -14,12 +17,15 @@ module.exports = function(robot) {
     robot.hear(/alerte/i, function(message) {
       apiCall("/rich", (err, res, body) => {
         if (!err && res.statusCode == 200) {
-          robot.adapter.customMessage({
-            channel: message.room,
+	  let data = JSON.parse(body);
+	  console.log(message.message.room);
+	  console.log(message.rid);
+          robot.messageRoom(message.message.room, {
+            channel: message.message.room,
             attachments: [{
-              title: body.title,
-              text: body.message,
-              color: body.color
+              title: data.title,
+              text: data.message,
+              color: data.color
             }]
           });
         }
