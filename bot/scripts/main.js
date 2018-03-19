@@ -1,8 +1,8 @@
-function apiCall(path, callback) {
-  robot.http("http://api:5000" + path).get(callback)
-}
-
 module.exports = function(robot) {
+    function apiCall(path, callback) {
+      robot.http("http://api:5000" + path).get(callback)
+    }
+  
     robot.respond(/salut/i, function(message) {
         require('request')('http://api:5000', (e, r, b) => {
             if (!e && r.statusCode == 200) {
