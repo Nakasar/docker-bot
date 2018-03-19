@@ -63,6 +63,9 @@ module.exports = function(robot) {
     }
   });
 
+  /**
+    Display help to user (TODO: In Direct Message instead of channel.)
+  */
   function helpCommand(message) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
@@ -74,6 +77,9 @@ module.exports = function(robot) {
     });
   }
 
+  /**
+    Handle the API response to an "Info" command.
+  */
   function handleInfoResponse(err, res, body, message) {
     if (err) {
       sendError(message, { error: "Une erreur inconue est survenue."});
@@ -89,6 +95,9 @@ module.exports = function(robot) {
     }
   }
 
+  /**
+    Handle the API response to a "logs" command.
+  */
   function handleLogsResponse(err, res, body, message) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
@@ -100,6 +109,9 @@ module.exports = function(robot) {
     });
   }
 
+  /**
+    Handle the API response to an "Admin" command.
+  */
   function handleAdminResponse(err, res, body, message) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
@@ -111,12 +123,16 @@ module.exports = function(robot) {
     });
   }
 
-  function sendError(message, errorObject) {
+  /**
+    Send a generic error in response.
+    params : errorObject { error: String, title: String, code: String}
+  */
+  function sendError(message, { error = "Une erreur inconnue est survenue.", title = "Erreur", code = "ERR-00" } = {}) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
       attachments: [{
-        title: "Erreur",
-        text: errorObject.error,
+        title: title,
+        text: error,
         color: "#FF0000"
       }]
     });
