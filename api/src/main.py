@@ -14,7 +14,7 @@ def endpointInfo():
     containers = dockerbot.infos.containers.listContainers()
     return jsonify({
         "title": "CONTAINERS",
-        "message": "Running containers :\n" + containers
+        "message": "Running containers :\n" + "\n".join(containers)
     })
 
 

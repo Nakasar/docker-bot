@@ -15,7 +15,7 @@ def listContainers():
         containers = client.containers.list()
         response = []
         for container in containers:
-            response.append("{0} ({1})".format(container.name, container.id))
+            response.append("**{0}** ({1})".format(container.name, container.id))
         return response
     except:
         return []
