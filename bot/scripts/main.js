@@ -99,14 +99,20 @@ module.exports = function(robot) {
     Handle the API response to a "logs" command.
   */
   function handleLogsResponse(err, res, body, message) {
-    robot.messageRoom(message.message.room, {
-      channel: message.message.room,
-      attachments: [{
-        title: "DOCKER LOGS",
-        text: 'Non implémenté.',
-        color: "#00BB00"
-      }]
-    });
+    if (!err && body.success) {
+      robot.messageRoom(message.message.room, {
+        channel: message.message.room,
+        attachments: [{
+          title: body.data.title,
+          text: body.data.message,
+          color: "#00BB00"
+        }]
+      });
+    } else if (!err) {
+      // handle Error Code
+    } else {
+      sendError(message);
+    }
   }
 
   /**
