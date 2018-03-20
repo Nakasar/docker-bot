@@ -24,7 +24,7 @@ def endpointLogs():
     parser.add_option('-l', '--limit', action='store', type='int', default=-1, dest='limit')
     parser.add_option('-e', '--error', action='store_true', default=False, dest='error')
     (option, remainder) = log_parser.parse_args(request.json["args"].split(' '))
-    if (option.container_name != None)
+    if (option.container_name != None):
         return jsonify(dockerbot.logs.containers.listLogs(option.container_name, option.limit, option.error))
     else:
         return jsonify({ "success":False, "code":"LOG-02" })
