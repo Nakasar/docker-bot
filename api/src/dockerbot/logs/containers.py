@@ -34,7 +34,7 @@ def listLogs(container_name, limit=-1, error=False, since=None):
                     'message': "\n".join(str(container.logs(
                         stdout=True,
                         stderr=error,
-                        since=datetime.strptime(since, '%m-%d-%H')
+                        since=datetime.strptime(since, '%m-%d-%H-%M').replace(year=now.year)
                     ), 'utf-8').split('\n')[:limit])
                 } if since != None else {
                     'title':'LOGS -- ' + container.name,
