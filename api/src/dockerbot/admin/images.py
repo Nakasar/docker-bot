@@ -9,6 +9,13 @@ def run(image):
     ----------
     string
         image -> the name of the image to run.
+
+    Returns
+    -------
+    set
+        success: bool -> True if image is up and running, False otherwise.
+        code: String -> Error code : ADM- 00 = unkown error, 01 = no image on docker hub, 05 = image not pullable, 11 = image pulled and ready to run.
+        message: String -> Message to display to user.
     """
     try:
         # Search for image in local cache

@@ -142,11 +142,11 @@ module.exports = function(robot) {
           attachments: [{
             title: body.title,
             text: body.message,
-            color: "#00BB00"
+            color: "#BB00BB"
           }]
         });
       } else {
-        sendError(message, body);
+        sendError(message, { title: body.title, error: body.message, code: body.code });
       }
     } else {
       sendError(message);
@@ -157,7 +157,7 @@ module.exports = function(robot) {
     Send a generic error in response.
     params : errorObject { error: String, title: String, code: String}
   */
-  function sendError(message, { error = "Une erreur inconnue est survenue.", title = "Erreur", code = "ERR-00" } = {}) {
+  function sendError(message, { error = "Une erreur inconnue est survenue.", title = "Erreur", code = "ERR-00", color = "#FF0000" } = {}) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
       attachments: [{

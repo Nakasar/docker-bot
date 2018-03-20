@@ -31,6 +31,11 @@ def endpointLogs():
 
 @app.route('/admin', methods=["POST"])
 def endpointAdmin():
+    """
+    Handle requests to /admin endpoint to administrate Docker containers and images.
+
+    Flask requet should contain an "args" key, or admin dashboard will be displayed.
+    """
     args = request.json["args"].strip().split(' ')
     if (args[0] == "run" and len(args) == 2):
         result = dockerbot.admin.images.run(args[1])
