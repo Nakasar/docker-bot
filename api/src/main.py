@@ -28,27 +28,31 @@ def endpointLogs():
 
 @app.route('/admin', methods=["POST"])
 def endpointAdmin():
-    args = request.json["args"].split(' ')
+    args = request.json["args"].strip().split(' ')
     if (args[0] == "run" and len(args) == 2):
         result = dockerbot.admin.images.run(args[1])
         if (result["success"]):
             return jsonify({
+                "success": True,
                 "title": "IMAGE RUNNING",
                 "message": result["message"]
             })
         else:
             if (result["code"] == "ADM-11") :
                 return jsonify({
+                    "success": False,
                     "title": "IMAGE PULLED",
                     "message": result["message"]
                 })
             else:
                 return jsonify({
+                    "success": False,
                     "title": "ERROR",
                     "message": result["message"]
                 })
     else:
         return jsonify({
+            "success": False,
             "title": "RUN COMMAND",
             "message": "No image precised : `!docker admin run <image name>`."
         })

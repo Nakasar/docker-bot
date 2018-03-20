@@ -126,7 +126,6 @@ module.exports = function(robot) {
     Handle the API response to an "Admin" command.
   */
   function handleAdminResponse(err, res, body, message) {
-    console.log(body)
     if (!err && body.success) {
       robot.messageRoom(message.message.room, {
         channel: message.message.room,
@@ -137,7 +136,18 @@ module.exports = function(robot) {
         }]
       });
     } else if (!err) {
-      sendError(message);
+      if (body.code == "ADM-11")  {
+        robot.messageRoom(message.message.room, {
+          channel: message.message.room,
+          attachments: [{
+            title: body.data.title,
+            text: body.data.message,
+            color: "#00BB00"
+          }]
+        });
+      } else {
+        sendError(message, body);
+      }
     } else {
       sendError(message);
     }
