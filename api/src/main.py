@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import subprocess
 
 import dockerbot.infos.containers
-import dockerbot.logs
+import dockerbot.logs.containers
 import dockerbot.admin
 
 app = Flask(__name__)
@@ -21,11 +21,11 @@ def endpointInfo():
 @app.route('/logs', methods=["POST"])
 def endpointLogs():
     args = request.json["args"]
+    name = args['name']
     return jsonify({
-        "title": "NO LOGS",
-        "message": "No logs available for this container."
+        "title": "LOGS -- " + name
+        "message": "\n".join(listLogs(name))
     })
-
 
 @app.route('/admin', methods=["POST"])
 def endpointAdmin():
