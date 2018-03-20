@@ -114,7 +114,7 @@ module.exports = function(robot) {
         title: "No container found"
       });
       else if (body.code == 'LOG-02') sendError(message, {
-        error: "format: !docker logs --name <name> [--limit <limit>]",
+        error: "format: !docker logs --name <name> [--limit <limit>] [--error]",
         title: "Bad format"
       });
     } else {

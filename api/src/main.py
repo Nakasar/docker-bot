@@ -19,8 +19,12 @@ def endpointInfo():
 @app.route('/logs', methods=["POST"])
 def endpointLogs():
     args = request.json["args"].split(' ')
+    if (len(args) == 5 and '--name' == args[0] and '--limit' == args[2] and args[3].isdigit() and args[4] == '--error'):
+        return jsonify(dockerbot.logs.containers.listLogs(str(args[1]), int(args[3]), True))
     if (len(args) == 4 and '--name' == args[0] and '--limit' == args[2] and args[3].isdigit()):
         return jsonify(dockerbot.logs.containers.listLogs(str(args[1]), int(args[3])))
+    if (len(args) == 3 and '--name' == args[0] and '--error' == args[2]):
+        return jsonify(dockerbot.logs.containers.listLogs(str(args[1]), error=True))
     elif (len(args) == 2 and '--name' == args[0]):
         return jsonify(dockerbot.logs.containers.listLogs(str(args[1])))
     else:
