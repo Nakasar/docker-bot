@@ -2,7 +2,7 @@ import docker
 
 client = docker.from_env()
 
-def listLogs(container_name, limit=-1):
+def listLogs(container_name, limit=-1, error=False):
     """
     Get the logs of a container given its name
 
@@ -26,7 +26,7 @@ def listLogs(container_name, limit=-1):
             if (container.name == container_name):
                 data = {
                     'title':'LOGS -- ' + container.name,
-                    'message': "\n".join(str(container.logs(stdout=True, stderr=True), 'utf-8').split('\n')[:limit])
+                    'message': "\n".join(str(container.logs(stdout=True, stderr=error), 'utf-8').split('\n')[:limit])
                 }
                 return { "success":True, "data": data }
         return { "success":False, "code":"LOG-01" }
