@@ -20,9 +20,9 @@ def endpointInfo():
 def endpointLogs():
     args = request.json["args"].split(' ')
     if (len(args) == 4 and '--name' == args[0] and '--limit' == args[2] and args[3].isdigit()):
-        return jsonify(listLogs(str(args[1]), int(args[3])))
+        return jsonify(dockerbot.logs.containers.listLogs(str(args[1]), int(args[3])))
     elif (len(args) == 2 and '--name' == args[0]):
-        return jsonify(listLogs(str(args[1])))
+        return jsonify(dockerbot.logs.containers.listLogs(str(args[1])))
     else:
         return jsonify({ "success":False, "code":"LOG-02" })
 
