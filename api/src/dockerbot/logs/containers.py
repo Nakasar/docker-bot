@@ -22,16 +22,13 @@ def listLogs(container_name, limit=-1):
 
     try:
         containers = client.containers.list()
-<<<<<<< HEAD
         for container in containers:
             if (container.name == container_name):
-                data = { 'title':'LOGS -- ' + name, 'message': str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit] }
+                data = {
+                    'title':'LOGS -- ' + container.name,
+                    'message': "\n".join(str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit])
+                }
                 return { "success":True, "data": data }
-=======
-        for container in client.containers.list():
-            if (container.name == container_name):
-                return { 'success':True, 'data': { 'title':'LOGS --' + container.name ,'message': str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit] } }
->>>>>>> fix error python logs
         return { "success":False, "code":"LOG-01" }
     except:
         return { "success":False, "code":"LOG-00" }
