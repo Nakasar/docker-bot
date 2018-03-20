@@ -146,7 +146,7 @@ module.exports = function(robot) {
           }]
         });
       } else {
-        sendError(message, body);
+        sendError(message, { title: body.title, error: body.message, code: body.code });
       }
     } else {
       sendError(message);
