@@ -19,12 +19,15 @@ def endpointInfo():
 
 @app.route('/logs', methods=["POST"])
 def endpointLogs():
-    parser = optparse.OptionParser()
+    args = request.json["args"].split(' ')
+    if (len(args) == 0):
+        return jsonify({ "success":False, "code":"LOG-02" })
+    parser = OptionParser()
     parser.add_option('-n', '--name', action='store', type='string', default=None, dest='container_name')
     parser.add_option('-l', '--limit', action='store', type='int', default=-1, dest='limit')
     parser.add_option('-e', '--error', action='store_true', default=False, dest='error')
     parser.add_option('--since', type='string', default=None, dest='since')
-    (option, remainder) = parser.parse_args(request.json["args"].split(' '))
+    (option, remainder) = parser.parse_args(args)
     if (option.container_name != None):
         return jsonify(dockerbot.logs.containers.listLogs(option.container_name, option.limit, option.error, option.since))
     else:
