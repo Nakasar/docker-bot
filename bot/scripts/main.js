@@ -72,7 +72,24 @@ module.exports = function(robot) {
       attachments: [{
         title: "AIDE",
         text: 'Non implémenté.',
-        color: "#0022BB"
+        color: "#0022BB",
+        fields: [
+          {
+            "short": true,
+            "title": "`!docker info aide`",
+            "value": "Affiche des informations au sujets des containeurs ou images disponibles."
+          },
+          {
+            "short": true,
+            "title": "`!docker logs aide`",
+            "value": "Affiche les logs d'un ou des containers."
+          },
+          {
+            "short": true,
+            "title": "`!docker admin aide`",
+            "value": "Administre les containers, images, services..."
+          }
+        ]
       }]
     });
   }
