@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/info', methods=["POST"])
 def endpointInfo():
     args = request.json["args"]
-    containers = dockerbot.info.containers.listContainers()
+    containers = dockerbot.infos.containers.listContainers()
     return jsonify({
         "title": "CONTAINERS",
         "message": "Running containers :\n" + containers
