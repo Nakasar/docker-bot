@@ -26,7 +26,7 @@ def listLogs(container_name, limit=-1):
             if (container.name == container_name):
                 data = {
                     'title':'LOGS -- ' + container.name,
-                    'message': "\n".join(str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit])
+                    'message': "\n".join(str(container.logs(stdout=True, stderr=True), 'utf-8').split('\n')[:limit])
                 }
                 return { "success":True, "data": data }
         return { "success":False, "code":"LOG-01" }
