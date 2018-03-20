@@ -74,18 +74,18 @@ module.exports = function(robot) {
         color: "#0022BB",
         fields: [
           {
-            "short": true,
-            "title": "`!docker info aide`",
+            "short": false,
+            "title": "!docker info aide",
             "value": "Affiche des informations au sujets des containeurs ou images disponibles."
           },
           {
-            "short": true,
-            "title": "`!docker logs aide`",
+            "short": false,
+            "title": "!docker logs aide",
             "value": "Affiche les logs d'un ou des containers."
           },
           {
-            "short": true,
-            "title": "`!docker admin aide`",
+            "short": false,
+            "title": "!docker admin aide",
             "value": "Administre les containers, images, services..."
           }
         ]
