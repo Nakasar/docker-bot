@@ -71,8 +71,24 @@ module.exports = function(robot) {
       channel: message.message.room,
       attachments: [{
         title: "AIDE",
-        text: 'Non implémenté.',
-        color: "#0022BB"
+        color: "#0022BB",
+        fields: [
+          {
+            "short": false,
+            "title": "!docker info aide",
+            "value": "Affiche des informations au sujets des containeurs ou images disponibles."
+          },
+          {
+            "short": false,
+            "title": "!docker logs aide",
+            "value": "Affiche les logs d'un ou des containers."
+          },
+          {
+            "short": false,
+            "title": "!docker admin aide",
+            "value": "Administre les containers, images, services..."
+          }
+        ]
       }]
     });
   }
