@@ -1,8 +1,9 @@
 import docker
+from datetime import datetime
 
 client = docker.from_env()
 
-def listLogs(container_name, limit=-1, error=False):
+def listLogs(container_name, limit=-1, error=False, since=None):
     """
     Get the logs of a container given its name
 
@@ -12,6 +13,10 @@ def listLogs(container_name, limit=-1, error=False):
         The name of the container
     [limit]
         The max count of log send
+    [error]
+        Tells if you want stderr logs
+    [since]
+        show logs since 'since'
 
     Returns
     -------
@@ -26,7 +31,17 @@ def listLogs(container_name, limit=-1, error=False):
             if (container.name == container_name):
                 data = {
                     'title':'LOGS -- ' + container.name,
-                    'message': "\n".join(str(container.logs(stdout=True, stderr=error), 'utf-8').split('\n')[:limit])
+                    'message': "\n".join(str(container.logs(
+                        stdout=True,
+                        stderr=error,
+                        since=datetime.strptime(since, '%m-%d-%H')
+                    ), 'utf-8').split('\n')[:limit])
+                } if since not None else {
+                    'title':'LOGS -- ' + container.name,
+                    'message': "\n".join(str(container.logs(
+                        stdout=True,
+                        stderr=error
+                    ), 'utf-8').split('\n')[:limit])
                 }
                 return { "success":True, "data": data }
         return { "success":False, "code":"LOG-01" }
