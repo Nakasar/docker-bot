@@ -1,13 +1,15 @@
 from flask import Flask, jsonify, request
 import subprocess
 
+import dockerbot
+
 app = Flask(__name__)
 
 
 @app.route('/info', methods=["POST"])
 def endpointInfo():
     args = request.json["args"]
-    containers = str(subprocess.Popen("docker ps", shell=True, stdout=subprocess.PIPE).stdout.read())
+    containers = dockerbot.info.containers.listContainers()
     return jsonify({
         "title": "CONTAINERS",
         "message": "Running containers :\n" + containers
