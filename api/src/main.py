@@ -3,7 +3,7 @@ import subprocess
 
 import dockerbot.infos.containers
 import dockerbot.logs.containers
-import dockerbot.admin
+import dockerbot.admin.images
 
 app = Flask(__name__)
 
@@ -29,10 +29,30 @@ def endpointLogs():
 
 @app.route('/admin', methods=["POST"])
 def endpointAdmin():
-    return jsonify({
-        "title": "NO ADMIN",
-        "message": "No administration available for this container."
-    })
+    args = request.json["args"].split(' ')
+    if (args[0] == "run" and args.length == 2):
+        result = dockerbot.admin.images.run(args[1])
+        if (result["success"]):
+            return jsonify({
+                "title": "IMAGE RUNNING",
+                "message": result["message"]
+            })
+        else:
+            if (result["code"] == "ADM-11") :
+                return jsonify({
+                    "title": "IMAGE PULLED",
+                    "message": result["message"]
+                })
+            else:
+                return jsonify({
+                    "title": "ERROR",
+                    "message": result["message"]
+                })
+    else:
+        return jsonify({
+            "title": "RUN COMMAND",
+            "message": "No image precised : `!docker admin run <image name>`."
+        })
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host="0.0.0.0", threaded=True)
