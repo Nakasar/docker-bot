@@ -21,7 +21,7 @@ def endpointInfo():
 @app.route('/logs', methods=["POST"])
 def endpointLogs():
     args = request.json["args"]
-    name = args['name']
+    name = args.split(' ')[0]
     return jsonify({
         "title": "LOGS -- " + name,
         "message": "\n".join(listLogs(name))
