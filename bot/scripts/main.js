@@ -14,40 +14,52 @@ module.exports = function(robot) {
         helpCommand(message);
         break;
       case "info":
-        request({
-          baseUrl: apiUrl,
-          uri: "/info",
-          method: "POST",
-          json: true,
-          body: {
-            args: args.join(" ")
-          },
-          callback: (err, res, body) => handleInfoResponse(err, res, body, message)
-        });
+        if (args.length == 1 && args[0] === "aide") {
+          infoHelpCommand(message)
+        } else {
+          request({
+            baseUrl: apiUrl,
+            uri: "/info",
+            method: "POST",
+            json: true,
+            body: {
+              args: args.join(" ")
+            },
+            callback: (err, res, body) => handleInfoResponse(err, res, body, message)
+          });
+        }
         break;
       case "logs":
-        request({
-          baseUrl: apiUrl,
-          uri: "/logs",
-          method: "POST",
-          json: true,
-          body: {
-            args: args.join(" ")
-          },
-          callback: (err, res, body) => handleLogsResponse(err, res, body, message)
-        });
+        if (args.length == 1 && args[0] === "aide") {
+          sendError(message, { error: "Not implemented" })
+        } else {
+          request({
+            baseUrl: apiUrl,
+            uri: "/logs",
+            method: "POST",
+            json: true,
+            body: {
+              args: args.join(" ")
+            },
+            callback: (err, res, body) => handleLogsResponse(err, res, body, message)
+          });
+        }
         break;
       case "admin":
-        request({
-          baseUrl: apiUrl,
-          uri: "/admin",
-          method: "POST",
-          json: true,
-          body: {
-            args: args.join(" ")
-          },
-          callback: (err, res, body) => handleAdminResponse(err, res, body, message)
-        });
+        if (args.length == 1 && args[0] === "aide") {
+          adminHelpCommand(message)
+        } else {
+          request({
+            baseUrl: apiUrl,
+            uri: "/admin",
+            method: "POST",
+            json: true,
+            body: {
+              args: args.join(" ")
+            },
+            callback: (err, res, body) => handleAdminResponse(err, res, body, message)
+          });
+        }
         break;
       default:
         // Command not recognized.
@@ -87,6 +99,48 @@ module.exports = function(robot) {
             "short": false,
             "title": "!docker admin aide",
             "value": "Administre les containers, images, services..."
+          }
+        ]
+      }]
+    });
+  }
+
+  /**
+    Display help about info command
+  */
+  function infoHelpCommand(message) {
+    robot.messageRoom(message.message.room, {
+      channel: message.message.room,
+      attachments: [{
+        title: "AIDE : INFO",
+        text: "`!docker info` command displays informations about containers and images.",
+        color: "#0022BB",
+        fields: [
+          {
+            "short": false,
+            "title": "!docker info",
+            "value": "List running containers."
+          }
+        ]
+      }]
+    });
+  }
+
+  /**
+    Display help about admin command
+  */
+  function adminHelpCommand(message) {
+    robot.messageRoom(message.message.room, {
+      channel: message.message.room,
+      attachments: [{
+        title: "AIDE : ADMIN",
+        text: "`!docker admin` command runs, stop, pause containers.",
+        color: "#0022BB",
+        fields: [
+          {
+            "short": false,
+            "title": "!docker admin run <image>",
+            "value": "Runs the given image if available, pulls it from dockerhub otherwise."
           }
         ]
       }]
