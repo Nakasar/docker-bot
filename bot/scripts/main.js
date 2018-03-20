@@ -109,7 +109,14 @@ module.exports = function(robot) {
         }]
       });
     } else if (!err) {
-      // handle Error Code
+      if (body.code == 'LOG-01') sendError(message, {
+        error: "The requested container was not found",
+        title: "No container found"
+      });
+      else if (body.code == 'LOG-02') sendError(message, {
+        error: "format: !docker logs --name <name> [--limit <limit>]",
+        title: "Bad format"
+      });
     } else {
       sendError(message);
     }
