@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import subprocess
 
-import dockerbot.infos
+import dockerbot.infos.containers
 import dockerbot.logs
 import dockerbot.admin
 
