@@ -20,7 +20,7 @@ def listLogs(container_name, limit=-1):
     """
 
     try:
-        for container client.containers.list():
+        for container in client.containers.list():
             if (container.name == container_name):
                 return str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit]
     except:
