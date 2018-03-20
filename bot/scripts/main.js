@@ -71,7 +71,6 @@ module.exports = function(robot) {
       channel: message.message.room,
       attachments: [{
         title: "AIDE",
-        text: 'Non implémenté.',
         color: "#0022BB",
         fields: [
           {
