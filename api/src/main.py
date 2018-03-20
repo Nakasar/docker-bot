@@ -29,7 +29,7 @@ def endpointLogs():
 @app.route('/admin', methods=["POST"])
 def endpointAdmin():
     args = request.json["args"].split(' ')
-    if (args[0] == "run" and args.length == 2):
+    if (args[0] == "run" and len(args) == 2):
         result = dockerbot.admin.images.run(args[1])
         if (result["success"]):
             return jsonify({

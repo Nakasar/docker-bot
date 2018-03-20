@@ -126,7 +126,21 @@ module.exports = function(robot) {
     Handle the API response to an "Admin" command.
   */
   function handleAdminResponse(err, res, body, message) {
-    sendError(message, { error: "Une erreur inconue est survenue en lançant l'administration du container.", title: "Oups :'(" });
+    console.log(body)
+    if (!err && body.success) {
+      robot.messageRoom(message.message.room, {
+        channel: message.message.room,
+        attachments: [{
+          title: body.data.title,
+          text: body.data.message,
+          color: "#00BB00"
+        }]
+      });
+    } else if (!err) {
+      sendError(message);
+    } else {
+      sendError(message);
+    }
   }
 
   /**
