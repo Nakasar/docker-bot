@@ -1,3 +1,7 @@
+import docker
+
+client = docker.from_env()
+
 def listContainers():
     """
     Gets list of running containers in current docker client.
@@ -10,7 +14,6 @@ def listContainers():
     [Container]
         List of Container objects
     """
-    global client
     try:
         containers = client.containers.list()
         response = []
@@ -22,5 +25,4 @@ def listContainers():
 
 
 def detailContainer(containerId):
-    global client
     return {}
