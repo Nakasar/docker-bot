@@ -16,12 +16,18 @@ def listLogs(container_name, limit=-1):
     Returns
     -------
     [logs]
-        List of logs
+        status : success or error
+        List of logs if success else error code
     """
 
     try:
         for container in client.containers.list():
             if (container.name == container_name):
-                return str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit]
+                data = {
+                    'title':'LOGS -- ' + name,
+                    'message': str(container.logs(stdout=True, stderr=True)).split('\\n')[:limit]
+                }
+                return { "success":True, "data": data }
+        return { "success":False, "code":"LOG-01" }
     except:
-        return []
+        return { "success":False, "code":"LOG-00" }

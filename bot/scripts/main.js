@@ -99,17 +99,19 @@ module.exports = function(robot) {
     Handle the API response to a "logs" command.
   */
   function handleLogsResponse(err, res, body, message) {
-    if (err) {
-      sendError(message, { error: "Une erreur inconue est survenue."});
-    } else {
+    if (!err && body.success) {
       robot.messageRoom(message.message.room, {
         channel: message.message.room,
         attachments: [{
-          title: body.title,
-          text: body.message,
+          title: body.data.title,
+          text: body.data.message,
           color: "#00BB00"
         }]
       });
+    } else if (!err) {
+      // handle Error Code
+    } else {
+      sendError(message);
     }
   }
 

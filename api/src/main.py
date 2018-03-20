@@ -7,7 +7,6 @@ import dockerbot.admin
 
 app = Flask(__name__)
 
-
 @app.route('/info', methods=["POST"])
 def endpointInfo():
     args = request.json["args"]
@@ -17,15 +16,15 @@ def endpointInfo():
         "message": "Running containers :\n" + "\n".join(containers)
     })
 
-
 @app.route('/logs', methods=["POST"])
 def endpointLogs():
-    args = request.json["args"]
-    name = args.split(' ')[0]
-    return jsonify({
-        "title": "LOGS -- " + name,
-        "message": "\n".join(dockerbot.logs.containers.listLogs(name))
-    })
+    args = request.json["args"].split(' ')
+    if (len(args) == 4 and '--name' == args[0] and '--limit' == args[2] and args[3].isdigit()):
+        return jsonify(listLogs(str(args[1]), int(args[3])))
+    elif (len(args) == 2 and '--name' == args[0]):
+        return jsonify(listLogs(str(args[1])))
+    else:
+        return jsonify({ "success":False, "code":"LOG-02" })
 
 @app.route('/admin', methods=["POST"])
 def endpointAdmin():
@@ -33,7 +32,6 @@ def endpointAdmin():
         "title": "NO ADMIN",
         "message": "No administration available for this container."
     })
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host="0.0.0.0", threaded=True)
