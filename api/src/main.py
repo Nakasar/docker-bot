@@ -23,7 +23,7 @@ def endpointLogs():
     args = request.json["args"]
     name = args['name']
     return jsonify({
-        "title": "LOGS -- " + name
+        "title": "LOGS -- " + name,
         "message": "\n".join(listLogs(name))
     })
 
