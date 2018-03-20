@@ -24,7 +24,7 @@ def endpointLogs():
     name = args.split(' ')[0]
     return jsonify({
         "title": "LOGS -- " + name,
-        "message": "\n".join(listLogs(name))
+        "message": "\n".join(dockerbot.logs.containers.listLogs(name))
     })
 
 @app.route('/admin', methods=["POST"])
