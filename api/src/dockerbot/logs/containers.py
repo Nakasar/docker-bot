@@ -42,7 +42,7 @@ def listLogs(container_name, limit, error, since, until):
                     'message': "\n".join(str(container.logs(
                         stdout=True,
                         stderr=error
-                    ), 'utf-8').split('\n')[:-1 if limit == -1 else min(limit, 15)])
+                    ), 'utf-8').split('\n')[:15 if limit == 0 else min(50, limit)])
                 }
                 return { "success":True, "data": data }
         return { "success":False, "code":"LOG-01" }
