@@ -1,5 +1,6 @@
 import docker
 from datetime import datetime
+import sys
 
 client = docker.from_env()
 
@@ -25,6 +26,9 @@ def listLogs(container_name, limit=-1, error=False, since=None):
         List of logs if success else error code
     """
 
+    print(since, file=sys.stderr)
+    print(datetime.strptime(since, '%m-%d %H:%M:%S').replace(year=datetime.now().year), file=sys.stderr)
+
     try:
         containers = client.containers.list()
         for container in containers:
@@ -34,7 +38,7 @@ def listLogs(container_name, limit=-1, error=False, since=None):
                     'message': "\n".join(str(container.logs(
                         stdout=True,
                         stderr=error,
-                        since=datetime.strptime(since, '%m-%d-%H-%M').replace(year=now.year)
+                        since=datetime.strptime(since, '%m-%d %H:%M:%S').replace(year=datetime.now().year)
                     ), 'utf-8').split('\n')[:limit])
                 } if since != None else {
                     'title':'LOGS -- ' + container.name,
