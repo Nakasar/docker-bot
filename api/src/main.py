@@ -54,7 +54,7 @@ def endpointAdmin():
     """
     args = request.json["args"].strip().split(' ')
     if (args[0] == "run" and len(args) == 2):
-        result = dockerbot.admin.images.run(args[1])
+        result = images.run(args[1])
         if (result["success"]):
             return jsonify({
                 "success": True,
