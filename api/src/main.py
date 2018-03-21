@@ -16,13 +16,21 @@ def endpointInfo():
     parser = OptionParser()
     parser.add_option('-i' , '--images', action='store_true', default=False, dest='about_images')
     parser.add_option('-c' , '--containers', action='store_true', default=False, dest='about_containers')
+    parser.add_option('-n', '--name', action="store", type='string', default=None, dest='name')
+    parser.add_option('-p', '--process', action="store_true", default=False, dest='display_process')
     (option, remainder) = parser.parse_args(args)
     if (not option.about_images and not option.about_containers):
         # Info must concern either images or containers
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
     elif (option.about_containers):
-        containersList = containers.listContainers()
-        return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers:\n" + "\n".join(containersList)})
+        if (option.name is None and not option.display_process):
+            containersList = containers.listContainers()
+            return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers:\n" + "\n".join(containersList)})
+        elif (option.name is not None and option.display_process):
+            result = containers.process(option.name)
+            return jsonify({"sucess": True, "title": "PROCESS", "message": result})
+        else:
+            return jsonify({"sucess": False, "code": "INF-08", "title": "ERROR", "message": "Invalid command, type `!docker info help` for help"})
     elif (option.about_images):
         imagesList = images.listImages()
         return jsonify({"success": True, "title": "IMAGES", "message": "List of local images:\n" + "\n".join(imagesList) + "\n\n_(Other images may be pulled from github or dockerhub)_"})
