@@ -78,11 +78,26 @@ def endpointAdmin():
                     "title": "ERROR",
                     "message": result["message"]
                 })
+    elif (args[0] == "kill" and len(args) == 2):
+        result = dockerbot.admin.containers.kill(args[1])
+        if (result["success"]):
+            return jsonify({
+                "success": True,
+                "title": "CONTAINER KILLED",
+                "message": result["message"]
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "title": "ERROR",
+                "message": result["message"]
+            })
     else:
         return jsonify({
             "success": False,
-            "title": "RUN COMMAND",
-            "message": "No image precised : `!docker admin run <image name>`."
+            "title": "UNKOWN COMMAND",
+            "code": "ADM-20",
+            "message": "Invalid command parameters for ADMIN."
         })
 
 if __name__ == '__main__':
