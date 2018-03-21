@@ -76,6 +76,23 @@ module.exports = function(robot) {
   });
 
   /**
+    dockerbot listens to channels and responds to message with generic response.
+  */
+  robot.respond(/(.*)/, function(message) {
+    let phrase = message.match(1);
+    request({
+      baseUrl: apiUrl,
+      uri: "/nlp",
+      method: "POST",
+      json: true,
+      body: {
+        phrase: phrase
+      },
+      callback: (err, res, body) => handlePhraseResponse(err, res, body, message)
+    });
+  });
+
+  /**
     Display help to user (TODO: In Direct Message instead of channel.)
   */
   function helpCommand(message) {
@@ -266,6 +283,17 @@ module.exports = function(robot) {
       }
     } else {
       sendError(message);
+    }
+  }
+
+  function handlePhraseResponse(err, res, body, message) {
+    console.log(body)
+    if (!err && body.success) {
+
+    } else if (!err) {
+
+    } else {
+      sendError();
     }
   }
 

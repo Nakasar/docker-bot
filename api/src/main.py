@@ -7,6 +7,57 @@ from dockerbot import *
 app = Flask(__name__)
 
 
+@app.route('/nlp', methods=["POST"])
+def endpointNlp():
+    phrase = request.json["phrase"]
+    if (len(phrase) > 0):
+        analyzed = nlp.analyse(phrase)
+        if "intent" in analyzed.keys():
+            intent = analyzed["intent"]
+            if intent == "logs":
+                if "entities" in analyzed.keys():
+                    options = {"target": None, "number": -1, "interval": {"since": "01-01/00:00:00", "until": datetime.now().strftime('%m-%d/%H:%M:%S')}, "datetime": '01-01/00:00:00'}
+                    for param in options.keys():
+                        if param in analyzed["entities"].keys():
+                            options[param] = analyzed["entities"][param]
+                    return jsonify(logs.listLogs(options["target"], options["number"], False, "01-01/00:00:00", datetime.now().strftime('%m-%d/%H:%M:%S')))
+                else:
+                    return jsonify({"success": False, "code": "NLP-011", "title": "LOGS", "message": "LOGS : No entities recognized."})
+            elif intent == "run":
+                if "entities" in analyzed.keys():
+                    if "source" in analyzed["entities"]:
+                        result = images.run(analyzed["entities"]["source"])
+                        if (result["success"]):
+                            return jsonify({
+                                "success": True,
+                                "title": "IMAGE RUNNING",
+                                "message": result["message"]
+                            })
+                        else:
+                            if (result["code"] == "ADM-11"):
+                                return jsonify({
+                                    "success": False,
+                                    "title": "IMAGE PULLED",
+                                    "message": result["message"]
+                                })
+                            else:
+                                return jsonify({
+                                    "success": False,
+                                    "title": "ERROR",
+                                    "message": result["message"]
+                                })
+                    else:
+                        return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
+                else:
+                    return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
+            else:
+                return jsonify({"success": False, "code": "NLP-010", "message": "No intent recognized."})
+        else:
+            return jsonify({"success": False, "code": "NLP-010", "message": "No intent recognized."})
+    else:
+        return jsonify({"success": False, "code": "NLP-001", "message": "No phrase to analyse."})
+
+
 @app.route('/info', methods=["POST"])
 def endpointInfo():
     args = request.json["args"].split(' ')
