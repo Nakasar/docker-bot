@@ -79,7 +79,7 @@ module.exports = function(robot) {
     dockerbot listens to channels and responds to message with generic response.
   */
   robot.respond(/(.*)/, function(message) {
-    let phrase = message.match(1);
+    let phrase = message.match[1];
     request({
       baseUrl: apiUrl,
       uri: "/nlp",
