@@ -4,7 +4,7 @@ import sys
 
 client = docker.from_env()
 
-def listLogs(container_name, limit, error, since, until):
+def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00', until):
     """
     Get the logs of a container given its name
 
