@@ -16,15 +16,11 @@ def listImages():
     """
     try:
         images = client.images.list()
-        print(images, file=sys.stderr)
         response = []
         for image in images:
-            print(image, file=sys.stderr)
-            print(image.tags, file=sys.stderr)
             for tag in image.tags:
-                print(tag, file=sys.stderr)
                 response.append("**{0}**".format(tag))
-        print(response, file=sys.stderr)
         return response
     except:
         return []
+
