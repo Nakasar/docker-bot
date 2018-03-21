@@ -1,6 +1,5 @@
 import docker
 client = docker.from_env()
-import sys
 
 def listImages():
     """
@@ -23,4 +22,3 @@ def listImages():
         return response
     except:
         return []
-
