@@ -47,7 +47,7 @@ module.exports = function(robot) {
         break;
       case "admin":
         if (args.length == 0 || args[0] === "help") {
-          adminHelpCommand(message)
+          adminHelpCommand(message);
         } else {
           request({
             baseUrl: apiUrl,
