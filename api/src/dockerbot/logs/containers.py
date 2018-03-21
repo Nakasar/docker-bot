@@ -4,6 +4,9 @@ import sys
 
 client = docker.from_env()
 
+def printerror(string):
+    print(string, file=sys.stderr)
+
 def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00', until = '12-31/00:00:00'):
     """
     Get the logs of a container given its name
@@ -26,6 +29,7 @@ def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00'
         List of logs if success else error code
     """
     try:
+        printerror("[LOGS] :: INFO :: listing logs from " + container_name)
         container = client.containers.get(container_name)
         data = {
             'title':'LOGS -- ' + container.name,
@@ -42,6 +46,8 @@ def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00'
                 stderr=error
             ), 'utf-8').split('\n')[:min(max(15, limit), 50)])
         }
+        printerror("[LOGS] :: INFO :: sending " + len(data.message) + " logs")
         return { "success":True, "data": data }
     except:
+        printerror("[LOGS] :: ERROR :: did not found container named " + container_name)
         return { "success":False, "code":"LOG-01" }
