@@ -8,6 +8,8 @@ import dockerbot.infos.images
 import dockerbot.logs.containers
 import dockerbot.admin.images
 
+import sys
+
 app = Flask(__name__)
 
 @app.route('/info', methods=["POST"])
@@ -25,10 +27,12 @@ def endpointInfo():
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
     elif (option.about_containers):
         containers = dockerbot.infos.containers.listContainers()
+        print(containers, file=sys.stderr)
         return jsonify({"success": True, "message": "List of running containers :\n{}".format("\n".join(containers))})
     elif (option.about_images):
         images = dockerbot.infos.images.listImages()
-        return jsonify({"success": True, "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n{}".format("\n".join(containers))})
+        print(images, file=sys.stderr)
+        return jsonify({"success": True, "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n{}".format("\n".join(images))})
     else:
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
 
