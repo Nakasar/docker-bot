@@ -28,7 +28,7 @@ def endpointInfo():
             return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers:\n" + "\n".join(containersList)})
         elif (option.name is not None and option.display_process):
             result = containers.process(option.name)
-            return jsonify({"sucess": True, "title": "PROCESS", "message": result})
+            return jsonify(result)
         else:
             return jsonify({"sucess": False, "code": "INF-08", "title": "ERROR", "message": "Invalid command, type `!docker info help` for help"})
     elif (option.about_images):
