@@ -42,12 +42,10 @@ def process(container_name):
     try:
 
         container = client.containers.get(container_name)
-        log(container)
         try:
             processList = container.top()
-            log(processList)
             result = ""
-            for process in processList:
+            for process in processList["Processes"]:
                 result += "\n> *{}* \n".format(process[7])
                 result += "UID: {}\n".format(process[0])
                 result += "PID: {}\n".format(process[1])
@@ -57,7 +55,6 @@ def process(container_name):
                 result += "TTY: {}\n".format(process[5])
                 result += "TIME: {}\n".format(process[6])
                 result += "\n"
-            log(result)
             return {"success": True, "message": result, "name": container_name}
         except:
             return {"success": False, "code": "INF-00", "message": "Could not get list of process for this container.", "name": container_name}
