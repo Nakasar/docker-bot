@@ -14,7 +14,7 @@ module.exports = function(robot) {
         helpCommand(message);
         break;
       case "info":
-        if (args.length == 1 && args[0] === "aide") {
+        if (args.length == 0 || args[0] === "aide") {
           infoHelpCommand(message)
         } else {
           request({
@@ -30,7 +30,7 @@ module.exports = function(robot) {
         }
         break;
       case "logs":
-        if (args.length == 1 && args[0] === "aide") {
+        if (args.length == 0 || args[0] === "aide") {
           sendError(message, { error: "Not implemented" })
         } else {
           request({
@@ -46,7 +46,7 @@ module.exports = function(robot) {
         }
         break;
       case "admin":
-        if (args.length == 1 && args[0] === "aide") {
+        if (args.length == 0 || args[0] === "aide") {
           adminHelpCommand(message)
         } else {
           request({
