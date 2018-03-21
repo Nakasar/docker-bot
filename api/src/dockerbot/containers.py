@@ -14,9 +14,9 @@ def listContainers():
         List of Container names and id "**c.name** c.id"
     """
     try:
-        containers = client.containers.list()
+        containersList = client.containers.list()
         response = []
-        for container in containers:
+        for container in containersList:
             response.append("**{0}** ({1})".format(container.name, container.id))
         return response
     except:

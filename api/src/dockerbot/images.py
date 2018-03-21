@@ -13,9 +13,9 @@ def listImages():
         List of image names ""**i.name**
     """
     try:
-        images = client.images.list()
+        imagesList = client.images.list()
         response = []
-        for image in images:
+        for image in imagesList:
             for tag in image.tags:
                 response.append("**{0}**".format(tag))
         return response
