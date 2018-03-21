@@ -279,7 +279,7 @@ module.exports = function(robot) {
       attachments: [{
         title: title,
         text: error,
-        color: "#FF0000"
+        color: color
       }]
     });
   }

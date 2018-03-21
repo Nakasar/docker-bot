@@ -42,6 +42,7 @@ import dockerbot.<module>.<submodule>
 |        | containers | Logs all containers, errors, hook to error detection, search logs... |
 | admin  |            |                                                                      |
 |        | images     | Pull, build and run images.                                          |
+|        | containers | Pause, start, stop and remove containers.                            |
 
 ### Dependancies
 - dockerbot runs a REST API with [Flask](http://flask.pocoo.org/).
