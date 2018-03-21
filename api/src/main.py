@@ -20,11 +20,11 @@ def endpointInfo():
         # Info must concern either images or containers
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
     elif (option.about_containers):
-        containers = containers.listContainers()
-        return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers :\n" + "\n".join(containers)})
+        containersList = containers.listContainers()
+        return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers :\n" + "\n".join(containersList)})
     elif (option.about_images):
-        images = images.listImages()
-        return jsonify({"success": True, "title": "IMAGES", "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n" + "\n".join(images)})
+        imagesList = images.listImages()
+        return jsonify({"success": True, "title": "IMAGES", "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n" + "\n".join(imagesList)})
     else:
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
 
@@ -75,7 +75,7 @@ def endpointAdmin():
                     "message": result["message"]
                 })
     elif (args[0] == "kill" and len(args) == 2):
-        result = dockerbot.admin.containers.kill(args[1])
+        result = containers.kill(args[1])
         if (result["success"]):
             return jsonify({
                 "success": True,
