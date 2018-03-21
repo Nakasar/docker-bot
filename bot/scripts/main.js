@@ -93,7 +93,7 @@ module.exports = function(robot) {
           {
             "short": false,
             "title": "!docker logs aide",
-            "value": "Affiche les logs d'un ou des containers."
+            "value": "Display logs from a given container"
           },
           {
             "short": false,
