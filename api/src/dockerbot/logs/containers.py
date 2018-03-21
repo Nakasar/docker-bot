@@ -4,7 +4,7 @@ import sys
 
 client = docker.from_env()
 
-def listLogs(container_name, limit=-1, error=False, since=None):
+def listLogs(container_name, limit=-1, error=False, since='01-01/00:00:00'):
     """
     Get the logs of a container given its name
 
@@ -34,7 +34,7 @@ def listLogs(container_name, limit=-1, error=False, since=None):
                     'message': "\n".join(str(container.logs(
                         stdout=True,
                         stderr=error,
-                        since=datetime.strptime('03-21/00:00:00', '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
+                        since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
                     ), 'utf-8').split('\n')[:limit])
                 } if since != None else {
                     'title':'LOGS -- ' + container.name,
