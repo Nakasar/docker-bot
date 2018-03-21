@@ -34,7 +34,7 @@ def listLogs(container_name, limit, error, since, until):
                     'message': "\n".join(str(container.logs(
                         stdout=True,
                         stderr=error,
-                        since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
+                        since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year),
                         until=datetime.strptime(until, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
                     ), 'utf-8').split('\n')[:limit])
                 } if since != None else {
