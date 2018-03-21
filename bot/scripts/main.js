@@ -155,13 +155,33 @@ module.exports = function(robot) {
       channel: message.message.room,
       attachments: [{
         title: "AIDE : LOGS",
-        text: "`!docker logs` command runs, stop, pause containers.",
+        text: "`!docker logs` Display logs of a running container.",
         color: "#0022BB",
         fields: [
           {
             "short": false,
-            "title": "!docker admin run <image>",
-            "value": "Runs the given image if available, pulls it from dockerhub otherwise."
+            "title": "!docker logs --name <container>",
+            "value": "Get the logs from the given container"
+          },
+          {
+            "short": false,
+            "title": "!docker logs --name <container> --limit <limit>",
+            "value": "Get the <limit> first logs from the given container <container>"
+          },
+          {
+            "short": false,
+            "title": "!docker logs --name <container> --limit <limit> --since <date>",
+            "value": "Get the <limit> first logs from the given container <container> since <date>"
+          },
+          {
+            "short": false,
+            "title": "!docker logs --name <container> --limit <limit> --since <date> --until <udate>",
+            "value": "Get the <limit> first logs from the given container <container> since <date> and until <udate>"
+          },
+          {
+            "short": false,
+            "title": "!docker logs --name <container> --limit <limit> --since <date> --until <udate> --error",
+            "value": "Get the <limit> first logs from the given container <container> since <date> and until <udate> from stdout and stderr"
           }
         ]
       }]
