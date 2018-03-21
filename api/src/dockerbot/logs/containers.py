@@ -4,10 +4,7 @@ import sys
 
 client = docker.from_env()
 
-def log(args, state='INFO', prefix='API'):
-    print(prefix + ' :: ' + state + ' :: ' + args)
-
-def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00', until = '12-31/00:00:00'):
+def listLogs(container_name, limit=-1, error=False, since='01-01/00:00:00', until='12-31/00:00:00'):
     """
     Get the logs of a container given its name
 
@@ -29,7 +26,6 @@ def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00'
         List of logs if success else error code
     """
     try:
-        log("listing logs from " + container_name)
         container = client.containers.get(container_name)
         data = {
             'title':'LOGS : ' + container.name,
@@ -44,10 +40,11 @@ def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00'
             'message': "\n".join(str(container.logs(
                 stdout=True,
                 stderr=True
-            ), 'utf-8').split('\n')[:min(max(15, limit), 50)])
+            ), 'utf-8').split('\n')[:limit])
         }
-        log("sending " + len(data.message) + " logs")
-        return { "success":True, "data": data }
+        return { "success":True, "data": data } if !error else { "success":True, "data": {
+            'title':data.title,
+            'message': [ e for e in data.message if 'error' in e.lower() ]
+            } }
     except:
-        log("did not found container named " + container_name)
         return { "success":False, "code":"LOG-01" }
