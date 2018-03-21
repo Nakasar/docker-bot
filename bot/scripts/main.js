@@ -192,6 +192,7 @@ module.exports = function(robot) {
     Handle the API response to an "Info" command.
   */
   function handleInfoResponse(err, res, body, message) {
+    console.log(body)
     if (err && body.success) {
       robot.messageRoom(message.message.room, {
         channel: message.message.room,
