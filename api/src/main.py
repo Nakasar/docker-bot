@@ -4,6 +4,7 @@ from datetime import datetime
 import subprocess
 
 import dockerbot.infos.containers
+import dockerbot.infos.images
 import dockerbot.logs.containers
 import dockerbot.admin.images
 
@@ -11,12 +12,25 @@ app = Flask(__name__)
 
 @app.route('/info', methods=["POST"])
 def endpointInfo():
-    args = request.json["args"]
-    containers = dockerbot.infos.containers.listContainers()
-    return jsonify({
-        "title": "CONTAINERS",
-        "message": "Running containers :\n" + "\n".join(containers)
-    })
+    args = request.json["args"].split(' ')
+    if (len(args) == 0):
+        # !docker info
+        return jsonify({"success": False, "code": "INF-03"})
+    parser = OptionParser()
+    parser.add_option('-i' , '--images', action='store_true', default=False, dest='about_images')
+    parser.add_option('-c' , '--containers', action='store_true', default=False, dest='about_containers')
+    (option, remainder) = parser.parse_args(args)
+    if (not option.about_images and not option.about_containers):
+        # Info must concern either images or containers
+        return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
+    elif (option.about_containers):
+        containers = dockerbot.infos.containers.listContainers()
+        return jsonify({"success": True, "message": "List of running containers :\n{}".format("\n".join(containers))})
+    elif (option.about_images):
+        images = dockerbot.infos.images.listImages()
+        return jsonify({"success": True, "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n{}".format("\n".join(containers))})
+    else:
+        return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
 
 @app.route('/logs', methods=["POST"])
 def endpointLogs():

@@ -11,8 +11,8 @@ def listContainers():
 
     Returns
     -------
-    [Container]
-        List of Container objects
+    [String]
+        List of Container names and id "**c.name** c.id"
     """
     try:
         containers = client.containers.list()

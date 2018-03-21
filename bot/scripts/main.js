@@ -14,7 +14,7 @@ module.exports = function(robot) {
         helpCommand(message);
         break;
       case "info":
-        if (args.length == 1 && args[0] === "aide") {
+        if (args.length == 0 || args[0] === "aide") {
           infoHelpCommand(message)
         } else {
           request({
@@ -30,8 +30,8 @@ module.exports = function(robot) {
         }
         break;
       case "logs":
-        if (args.length == 0 || args.length == 1 && args[0] === "aide") {
-          logsHelpCommand(message);
+        if (args.length == 0 || args[0] === "aide") {
+          sendError(message, { error: "Not implemented" })
         } else {
           request({
             baseUrl: apiUrl,
@@ -46,7 +46,7 @@ module.exports = function(robot) {
         }
         break;
       case "admin":
-        if (args.length == 1 && args[0] === "aide") {
+        if (args.length == 0 || args[0] === "aide") {
           adminHelpCommand(message)
         } else {
           request({
@@ -118,8 +118,8 @@ module.exports = function(robot) {
         fields: [
           {
             "short": false,
-            "title": "!docker info",
-            "value": "List running containers."
+            "title": "!docker info <--images|--container>",
+            "value": "List local images or running containers."
           }
         ]
       }]
@@ -192,9 +192,7 @@ module.exports = function(robot) {
     Handle the API response to an "Info" command.
   */
   function handleInfoResponse(err, res, body, message) {
-    if (err) {
-      sendError(message, { error: "Une erreur inconue est survenue."});
-    } else {
+    if (err && body.success) {
       robot.messageRoom(message.message.room, {
         channel: message.message.room,
         attachments: [{
@@ -203,6 +201,10 @@ module.exports = function(robot) {
           color: "#00BB00"
         }]
       });
+    } else if (err) {
+      sendError(message, { title: body.title, error: body.message });
+    } else {
+      sendError(message, { error: "Une erreur inconue est survenue."});
     }
   }
 
