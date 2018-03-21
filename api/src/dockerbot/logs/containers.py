@@ -4,7 +4,7 @@ import sys
 
 client = docker.from_env()
 
-def log(*args, **kwargs, state='INFO', prefix='API'):
+def log(*args, state='INFO', prefix='API', **kwargs):
     print(prefix + ' :: ' + state + ' :: ' + args, kwargs)
 
 def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00', until = '12-31/00:00:00'):
