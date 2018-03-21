@@ -184,7 +184,10 @@ module.exports = function(robot) {
         title: "No container found"
       });
       else if (body.code == 'LOG-02') sendError(message, {
-        error: "format: !docker logs --name <name> [--limit <limit>] [--error]",
+        error: "format: !docker logs --name <name> [--limit <limit>] [--error] [--since <date>] [--until <date>] \n"
+             + " <name>  : the name of an existing docker image \n"
+             + " <limit> : the max count of logs displayed \n"
+             + " <date>  : MM-DD/HH:MM/SS",
         title: "Bad format"
       });
     } else {
