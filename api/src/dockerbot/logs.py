@@ -2,7 +2,7 @@ from datetime import datetime
 
 from . import client
 
-def listLogs(container_name, limit=-1, error=False, since='01-01/00:00:00', until='12-31/00:00:00'):
+def listLogs(container_name, limit, error, since, until):
     """
     Get the logs of a container given its name
 
@@ -27,22 +27,13 @@ def listLogs(container_name, limit=-1, error=False, since='01-01/00:00:00', unti
         container = client.containers.get(container_name)
         data = {
             'title':'LOGS : ' + container.name,
-            'message': "\n".join(str(container.logs(
+            'message': "\n".join([ e for e in str(container.logs(
                 stdout=True,
                 stderr=True,
                 since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year),
                 until=datetime.strptime(until, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
-            ), 'utf-8').split('\n')[:limit])
-        } if since != None else {
-            'title':'LOGS -- ' + container.name,
-            'message': "\n".join(str(container.logs(
-                stdout=True,
-                stderr=True
-            ), 'utf-8').split('\n')[:limit])
+            ), 'utf-8').split('\n')[:limit] if 'error' in e.lower() or not(error) ])
         }
-        return { "success":True, "data": data } if not(error) else { "success":True, "data": {
-            'title':data.title,
-            'message': [ e for e in data.message if 'error' in e.lower() ]
-            } }
+        return { "success":True, "data": data }
     except:
         return { "success":False, "code":"LOG-01" }
