@@ -30,8 +30,13 @@ module.exports = function(robot) {
         }
         break;
       case "logs":
+<<<<<<< HEAD
         if (args.length == 0 || args[0] === "aide") {
           sendError(message, { error: "Not implemented" })
+=======
+        if (args.length == 0 || args.length == 1 && args[0] === "aide") {
+          logsHelpCommand(message);
+>>>>>>> 859c611714deefcaeb635a404aadcf9f77d418cf
         } else {
           request({
             baseUrl: apiUrl,
@@ -148,6 +153,27 @@ module.exports = function(robot) {
   }
 
   /**
+    Display help about logs command
+  */
+  function logsHelpCommand(message) {
+    robot.messageRoom(message.message.room, {
+      channel: message.message.room,
+      attachments: [{
+        title: "AIDE : LOGS",
+        text: "`!docker logs` command runs, stop, pause containers.",
+        color: "#0022BB",
+        fields: [
+          {
+            "short": false,
+            "title": "!docker admin run <image>",
+            "value": "Runs the given image if available, pulls it from dockerhub otherwise."
+          }
+        ]
+      }]
+    });
+  }
+
+  /**
     Handle the API response to an "Info" command.
   */
   function handleInfoResponse(err, res, body, message) {
@@ -184,7 +210,10 @@ module.exports = function(robot) {
         title: "No container found"
       });
       else if (body.code == 'LOG-02') sendError(message, {
-        error: "format: !docker logs --name <name> [--limit <limit>] [--error]",
+        error: "format: !docker logs --name <name> [--limit <limit>] [--error] [--since <date>] [--until <date>] \n"
+             + " <name>  : the name of an existing docker image \n"
+             + " <limit> : the max count of logs displayed \n"
+             + " <date>  : MM-DD/HH:MM/SS",
         title: "Bad format"
       });
     } else {
