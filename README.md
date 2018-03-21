@@ -35,8 +35,9 @@ import dockerbot.<module>.<submodule>
 #### Systems
 | Module | System     | Description                                                          |
 |--------|------------|----------------------------------------------------------------------|
-| info   |            |                                                                      |
+| infos  |            |                                                                      |
 |        | containers | List containers, get container status...                             |
+|        | images     | List images on machine...                                            |
 | logs   |            |                                                                      |
 |        | containers | Logs all containers, errors, hook to error detection, search logs... |
 | admin  |            |                                                                      |

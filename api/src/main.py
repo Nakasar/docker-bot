@@ -25,10 +25,10 @@ def endpointInfo():
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
     elif (option.about_containers):
         containers = dockerbot.infos.containers.listContainers()
-        return jsonify({"success": True, "message": "List of running containers :\n" + "\n".join(containers)})
+        return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers :\n" + "\n".join(containers)})
     elif (option.about_images):
         images = dockerbot.infos.images.listImages()
-        return jsonify({"success": True, "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n" + "\n".join(images)})
+        return jsonify({"success": True, "title": "IMAGES", "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n" + "\n".join(images)})
     else:
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
 
