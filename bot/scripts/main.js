@@ -160,27 +160,27 @@ module.exports = function(robot) {
         fields: [
           {
             "short": false,
-            "title": "`--name <container>`",
+            "title": "--name <container>",
             "value": "Get the logs from the given container"
           },
           {
             "short": false,
-            "title": "`--limit <count>`",
+            "title": "--limit <count>",
             "value": "limit to <count> logs displayed"
           },
           {
             "short": false,
-            "title": "`--since <date>`",
+            "title": "--since <date>",
             "value": "Get the logs since <date> ( format : Month-Day/Hour:Minutes:Seconds )"
           },
           {
             "short": false,
-            "title": "`--until <date>`",
+            "title": "--until <date>",
             "value": "Get the logs until <date> ( format : Month-Day/Hour:Minutes:Seconds )"
           },
           {
             "short": false,
-            "title": "`--error`",
+            "title": "--error",
             "value": "Get the logs concerning some error"
           },
         ]
