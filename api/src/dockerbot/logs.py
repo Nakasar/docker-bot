@@ -1,8 +1,6 @@
-import docker
 from datetime import datetime
-import sys
 
-client = docker.from_env()
+from . import client
 
 def listLogs(container_name, limit=-1, error=False, since='01-01/00:00:00', until='12-31/00:00:00'):
     """

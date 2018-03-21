@@ -1,12 +1,8 @@
 from flask import Flask, jsonify, request
 from optparse import OptionParser
 from datetime import datetime
-import subprocess
 
-import dockerbot.infos.containers
-import dockerbot.infos.images
-import dockerbot.logs.containers
-import dockerbot.admin.images
+from dockerbot import *
 
 app = Flask(__name__)
 
@@ -24,10 +20,10 @@ def endpointInfo():
         # Info must concern either images or containers
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
     elif (option.about_containers):
-        containers = dockerbot.infos.containers.listContainers()
+        containers = containers.listContainers()
         return jsonify({"success": True, "title": "CONTAINERS", "message": "List of running containers :\n" + "\n".join(containers)})
     elif (option.about_images):
-        images = dockerbot.infos.images.listImages()
+        images = images.listImages()
         return jsonify({"success": True, "title": "IMAGES", "message": "List of local images *(Other images may be pulled from github or dockerhub)* :\n" + "\n".join(images)})
     else:
         return jsonify({"success": False, "code": "INF-02", "message": "Exacly one of `--images` or `--containers` expected."})
@@ -45,7 +41,7 @@ def endpointLogs():
     parser.add_option('--until', type='string', default=datetime.now().strftime('%m-%d/%H:%M:%S'), dest='until')
     (option, remainder) = parser.parse_args(args)
     if (option.container_name != None):
-        return jsonify(dockerbot.logs.containers.listLogs(option.container_name, option.limit, option.error, option.since, option.until))
+        return jsonify(logs.listLogs(option.container_name, option.limit, option.error, option.since, option.until))
     else:
         return jsonify({ "success":False, "code":"LOG-02" })
 
