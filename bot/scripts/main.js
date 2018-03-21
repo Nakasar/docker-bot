@@ -31,7 +31,7 @@ module.exports = function(robot) {
         break;
       case "logs":
         if (args.length == 0 || args[0] === "aide") {
-          sendError(message, { error: "Not implemented" })
+          logsHelpCommand(message);
         } else {
           request({
             baseUrl: apiUrl,
