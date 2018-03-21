@@ -30,8 +30,8 @@ module.exports = function(robot) {
         }
         break;
       case "logs":
-        if (args.length == 1 && args[0] === "aide") {
-          sendError(message, { error: "Not implemented" })
+        if (args.length <= 1 && args[0] === "aide") {
+          logsHelpCommand(message);
         } else {
           request({
             baseUrl: apiUrl,
@@ -135,6 +135,27 @@ module.exports = function(robot) {
       attachments: [{
         title: "AIDE : ADMIN",
         text: "`!docker admin` command runs, stop, pause containers.",
+        color: "#0022BB",
+        fields: [
+          {
+            "short": false,
+            "title": "!docker admin run <image>",
+            "value": "Runs the given image if available, pulls it from dockerhub otherwise."
+          }
+        ]
+      }]
+    });
+  }
+
+  /**
+    Display help about logs command
+  */
+  function logsHelpCommand(message) {
+    robot.messageRoom(message.message.room, {
+      channel: message.message.room,
+      attachments: [{
+        title: "AIDE : LOGS",
+        text: "`!docker logs` command runs, stop, pause containers.",
         color: "#0022BB",
         fields: [
           {
