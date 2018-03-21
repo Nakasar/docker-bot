@@ -39,7 +39,7 @@ def endpointLogs():
         return jsonify({ "success":False, "code":"LOG-02" })
     parser = OptionParser()
     parser.add_option('-n', '--name', action='store', type='string', default=None, dest='container_name')
-    parser.add_option('-l', '--limit', action='store', type='int', default=-1, dest='limit')
+    parser.add_option('-l', '--limit', action='store', type='int', default=0, dest='limit')
     parser.add_option('-e', '--error', action='store_true', default=False, dest='error')
     parser.add_option('--since', type='string', default='01-01/00:00:00', dest='since')
     parser.add_option('--until', type='string', default=datetime.now().strftime('%m-%d/%H:%M:%S'), dest='until')
