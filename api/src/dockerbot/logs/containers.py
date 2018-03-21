@@ -26,25 +26,22 @@ def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00'
         List of logs if success else error code
     """
     try:
-        containers = client.containers.list()
-        for container in containers:
-            if (container.name == container_name):
-                data = {
-                    'title':'LOGS -- ' + container.name,
-                    'message': "\n".join(str(container.logs(
-                        stdout=True,
-                        stderr=error,
-                        since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year),
-                        until=datetime.strptime(until, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
-                    ), 'utf-8').split('\n')[:limit])
-                } if since != None else {
-                    'title':'LOGS -- ' + container.name,
-                    'message': "\n".join(str(container.logs(
-                        stdout=True,
-                        stderr=error
-                    ), 'utf-8').split('\n')[:min(max(15, limit), 50)])
-                }
-                return { "success":True, "data": data }
-        return { "success":False, "code":"LOG-01" }
+        container = client.containers.get(container_name)
+        data = {
+            'title':'LOGS -- ' + container.name,
+            'message': "\n".join(str(container.logs(
+                stdout=True,
+                stderr=error,
+                since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year),
+                until=datetime.strptime(until, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
+            ), 'utf-8').split('\n')[:limit])
+        } if since != None else {
+            'title':'LOGS -- ' + container.name,
+            'message': "\n".join(str(container.logs(
+                stdout=True,
+                stderr=error
+            ), 'utf-8').split('\n')[:min(max(15, limit), 50)])
+        }
+        return { "success":True, "data": data }
     except:
-        return { "success":False, "code":"LOG-00" }
+        return { "success":False, "code":"LOG-01" }
