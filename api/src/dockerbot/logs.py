@@ -16,6 +16,8 @@ def listLogs(container_name, limit, error, since, until):
         Tells if you want stderr logs
     [since]
         show logs since 'since'
+    [until]
+        show logs until 'until'
 
     Returns
     -------

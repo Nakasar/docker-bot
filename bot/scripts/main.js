@@ -160,29 +160,29 @@ module.exports = function(robot) {
         fields: [
           {
             "short": false,
-            "title": "!docker logs --name <container>",
+            "title": "--name <container>",
             "value": "Get the logs from the given container"
           },
           {
             "short": false,
-            "title": "!docker logs --name <container> --limit <limit>",
-            "value": "Get the <limit> first logs from the given container <container>"
+            "title": "--limit <count>",
+            "value": "limit to <count> logs displayed"
           },
           {
             "short": false,
-            "title": "!docker logs --name <container> --limit <limit> --since <date>",
-            "value": "Get the <limit> first logs from the given container <container> since <date>"
+            "title": "--since <date>",
+            "value": "Get the logs since <date> ( format : Month-Day/Hour:Minutes:Seconds )"
           },
           {
             "short": false,
-            "title": "!docker logs --name <container> --limit <limit> --since <date> --until <udate>",
-            "value": "Get the <limit> first logs from the given container <container> since <date> and until <udate>"
+            "title": "--until <date>",
+            "value": "Get the logs until <date> ( format : Month-Day/Hour:Minutes:Seconds )"
           },
           {
             "short": false,
-            "title": "!docker logs --name <container> --limit <limit> --since <date> --until <udate> --error",
-            "value": "Get the <limit> first logs from the given container <container> since <date> and until <udate> from stdout and stderr"
-          }
+            "title": "--error",
+            "value": "Get the logs concerning some error"
+          },
         ]
       }]
     });
