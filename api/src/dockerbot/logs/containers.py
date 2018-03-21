@@ -42,7 +42,7 @@ def listLogs(container_name, limit=-1, error=False, since='01-01/00:00:00', unti
                 stderr=True
             ), 'utf-8').split('\n')[:limit])
         }
-        return { "success":True, "data": data } if !error else { "success":True, "data": {
+        return { "success":True, "data": data } if not(error) else { "success":True, "data": {
             'title':data.title,
             'message': [ e for e in data.message if 'error' in e.lower() ]
             } }
