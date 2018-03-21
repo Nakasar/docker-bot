@@ -30,7 +30,7 @@ module.exports = function(robot) {
         }
         break;
       case "logs":
-        if (args.length <= 1 && args[0] === "aide") {
+        if (args.length == 0 || args.length == 1 && args[0] === "aide") {
           logsHelpCommand(message);
         } else {
           request({
