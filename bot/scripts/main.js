@@ -14,7 +14,7 @@ module.exports = function(robot) {
         helpCommand(message);
         break;
       case "info":
-        if (args.length == 0 || args[0] === "aide") {
+        if (args.length == 0 || args[0] === "help") {
           infoHelpCommand(message)
         } else {
           request({
@@ -30,7 +30,7 @@ module.exports = function(robot) {
         }
         break;
       case "logs":
-        if (args.length == 0 || args[0] === "aide") {
+        if (args.length == 0 || args[0] === "help") {
           logsHelpCommand(message);
         } else {
           request({
@@ -46,7 +46,7 @@ module.exports = function(robot) {
         }
         break;
       case "admin":
-        if (args.length == 0 || args[0] === "aide") {
+        if (args.length == 0 || args[0] === "help") {
           adminHelpCommand(message)
         } else {
           request({
@@ -82,23 +82,23 @@ module.exports = function(robot) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
       attachments: [{
-        title: "AIDE",
+        title: "HELP",
         color: "#0022BB",
         fields: [
           {
             "short": false,
-            "title": "!docker info aide",
-            "value": "Affiche des informations au sujets des containeurs ou images disponibles."
+            "title": "!docker info help",
+            "value": "Display informations about containurs or avaialble images."
           },
           {
             "short": false,
-            "title": "!docker logs aide",
+            "title": "!docker logs help",
             "value": "Display logs from a given container"
           },
           {
             "short": false,
-            "title": "!docker admin aide",
-            "value": "Administre les containers, images, services..."
+            "title": "!docker admin help",
+            "value": "Administration of containers, images, services..."
           }
         ]
       }]
@@ -204,7 +204,7 @@ module.exports = function(robot) {
     } else if (!err) {
       sendError(message, { title: body.title, error: body.message });
     } else {
-      sendError(message, { error: "Une erreur inconue est survenue."});
+      sendError(message);
     }
   }
 
@@ -273,7 +273,7 @@ module.exports = function(robot) {
     Send a generic error in response.
     params : errorObject { error: String, title: String, code: String}
   */
-  function sendError(message, { error = "Une erreur inconnue est survenue.", title = "Erreur", code = "ERR-00", color = "#FF0000" } = {}) {
+  function sendError(message, { error = "An unkown error occured.", title = "ERROR", code = "ERR-00", color = "#FF0000" } = {}) {
     robot.messageRoom(message.message.room, {
       channel: message.message.room,
       attachments: [{
