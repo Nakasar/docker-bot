@@ -28,7 +28,7 @@ def endpointLogs():
     parser.add_option('-l', '--limit', action='store', type='int', default=-1, dest='limit')
     parser.add_option('-e', '--error', action='store_true', default=False, dest='error')
     parser.add_option('--since', type='string', default='01-01/00:00:00', dest='since')
-    parser.add_option('--until', type='string', default=datetime.datetime.now(), dest='until')
+    parser.add_option('--until', type='string', default=datetime.now().strftime('%m-%d/%H:%M:%S'), dest='until')
     (option, remainder) = parser.parse_args(args)
     if (option.container_name != None):
         return jsonify(dockerbot.logs.containers.listLogs(option.container_name, option.limit, option.error, option.since, option.until))
