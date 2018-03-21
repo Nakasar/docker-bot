@@ -43,7 +43,7 @@ def listLogs(container_name, limit = -1, error = False, since = '01-01/00:00:00'
             'title':'LOGS -- ' + container.name,
             'message': "\n".join(str(container.logs(
                 stdout=True,
-                stderr=True,
+                stderr=True
             ), 'utf-8').split('\n')[:min(max(15, limit), 50)])
         }
         log("sending " + len(data.message) + " logs")
