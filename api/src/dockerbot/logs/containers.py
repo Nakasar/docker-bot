@@ -25,10 +25,6 @@ def listLogs(container_name, limit=-1, error=False, since=None):
         status : success or error
         List of logs if success else error code
     """
-
-    print(since, file=sys.stderr)
-    print(datetime.strptime(since, '%m-%d %H:%M:%S').replace(year=datetime.now().year), file=sys.stderr)
-
     try:
         containers = client.containers.list()
         for container in containers:
@@ -38,7 +34,7 @@ def listLogs(container_name, limit=-1, error=False, since=None):
                     'message': "\n".join(str(container.logs(
                         stdout=True,
                         stderr=error,
-                        since=datetime.strptime(since, '%m-%d %H:%M:%S').replace(year=datetime.now().year)
+                        since=datetime.strptime('03-21/00:00:00', '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
                     ), 'utf-8').split('\n')[:limit])
                 } if since != None else {
                     'title':'LOGS -- ' + container.name,
