@@ -192,8 +192,7 @@ module.exports = function(robot) {
     Handle the API response to an "Info" command.
   */
   function handleInfoResponse(err, res, body, message) {
-    console.log(body)
-    if (err && body.success) {
+    if (!err && body.success) {
       robot.messageRoom(message.message.room, {
         channel: message.message.room,
         attachments: [{
@@ -202,7 +201,7 @@ module.exports = function(robot) {
           color: "#00BB00"
         }]
       });
-    } else if (err) {
+    } else if (!err) {
       sendError(message, { title: body.title, error: body.message });
     } else {
       sendError(message, { error: "Une erreur inconue est survenue."});
