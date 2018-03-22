@@ -77,3 +77,7 @@ def nlp_run(intent, entities):
         version = "latest"
 
     return run(image_name, version)
+
+
+def nlp_info(intent, entities):
+    return listImages()
