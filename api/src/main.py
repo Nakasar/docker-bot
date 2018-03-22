@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 from optparse import OptionParser
 from datetime import datetime
-
 from dockerbot import *
 
 app = Flask(__name__)
@@ -17,6 +16,7 @@ def endpointNlp():
         if intent == "logs":
             entities_names = [entity.name for entity in entities]
             # Parse of Default parameters for LOGS command
+
             try:
                 target = entities[entities_names.index("target")].value
             except:
