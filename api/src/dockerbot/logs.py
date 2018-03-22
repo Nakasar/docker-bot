@@ -37,3 +37,30 @@ def listLogs(container_name, limit, error, since, until):
         return { "success":True, "title": title, "message": message }
     except:
         return { "success":False, "code":"LOG-01" }
+
+
+def nlp_listLogs(intent, entities):
+    entities_names = [entity.name for entity in entities]
+
+    try:
+        target = entities[entities_names.index("target")].value
+    except:
+        target = None
+    try:
+        number = entities[entities_names.index("number")].scalar
+    except:
+        number = None
+    try:
+        error = entities[entities_names.index("error")].value
+    except:
+        error = False
+    try:
+        since = entities[entities_names.index("since")].start
+    except:
+        since = "01-01/00:00:00"
+    try:
+        until = entities[entities_names.index("until")].end
+    except:
+        until = datetime.now().strftime('%m-%d/%H:%M:%S')
+
+    return jsonify(listLogs(target, number, error, since, until))

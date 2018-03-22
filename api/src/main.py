@@ -14,34 +14,7 @@ def endpointNlp():
         intent = analyzed["intent"]
         entities = analyzed["entities"]
         if intent == "logs":
-            entities_names = [entity.name for entity in entities]
-            # Parse of Default parameters for LOGS command
-
-            try:
-                target = entities[entities_names.index("target")].value
-            except:
-                target = None
-
-            try:
-                number = entities[entities_names.index("number")].scalar
-            except:
-                number = None
-
-            try:
-                error = entities[entities_names.index("error")].value
-            except:
-                error = False
-
-            try:
-                since = entities[entities_names.index("since")].start
-            except:
-                since = "01-01/00:00:00"
-
-            try:
-                until = entities[entities_names.index("until")].end
-            except:
-                until = datetime.now().strftime('%m-%d/%H:%M:%S')
-            return jsonify(logs.listLogs(target, number, error, since, until))
+            logs.nlp_listLogs(intent, entities)
         elif intent == "run":
             if "entities" in analyzed.keys():
                 if "source" in analyzed["entities"]:
