@@ -297,7 +297,17 @@ module.exports = function(robot) {
         }]
       });
     } else if (!err) {
-      sendError(message, { title: body.title, error: body.message, code: body.code });
+      if (body.code == 'LOG-01') sendError(message, {
+        error: "The requested container was not found",
+        title: "No container found"
+      });
+      else if (body.code == 'LOG-02') sendError(message, {
+        error: "format: !docker logs --name <name> [--limit <limit>] [--error] [--since <date>] [--until <date>] \n"
+             + " <name>  : the name of an existing docker image \n"
+             + " <limit> : the max count of logs displayed \n"
+             + " <date>  : MM-DD/HH:MM/SS",
+        title: "Bad format"
+      });
     } else {
       sendError();
     }
