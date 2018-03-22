@@ -13,7 +13,9 @@ def endpointNlp():
         analyzed = nlp.analyse(phrase)
         intent = analyzed["intent"]
         entities = analyzed["entities"]
-        if intent == "logs":
+        if intent == "say-thanks":
+            return jsonify({"success": True, "message": "It's nothing ;)"})
+        elif intent == "logs":
             return jsonify(logs.nlp_listLogs(intent, entities))
         elif intent == "kill-container":
             return jsonify(containers.nlp_kill(intent, entities))
