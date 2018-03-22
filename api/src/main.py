@@ -17,6 +17,8 @@ def endpointNlp():
             return jsonify(logs.nlp_listLogs(intent, entities))
         elif intent == "kill-container":
             return jsonify(containers.nlp_kill(intent, entities))
+        elif intent == "run":
+            return jsonify(images.nlp_run(intent, entities))
         return jsonify({"success": False, "code": "NLP-001", "message": "I did not understand this sentence"})
 
 

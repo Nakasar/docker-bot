@@ -58,3 +58,22 @@ def run(image):
         except:
             # No image found on docker repos
             return {"success": False, "code": "ADM-01", "message": "No image found on docker repos."}
+
+
+def nlp_run(intent, entities):
+    entities_names = [entity.name for entity in entities]
+
+    try:
+        image_name = entities[entities_names.index("source")].value
+    except:
+        image_name = None
+
+    try:
+        version = entities[entities_names.index("version")].value
+    except:
+        version = "latest"
+
+    if (version[0] == ':'):
+        version = version[1:]
+
+    return run(image + ':' + version)
