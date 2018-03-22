@@ -15,37 +15,9 @@ def endpointNlp():
         entities = analyzed["entities"]
         if intent == "logs":
             return jsonify(logs.nlp_listLogs(intent, entities))
-        elif intent == "run":
-            if "entities" in analyzed.keys():
-                if "source" in analyzed["entities"]:
-                    result = images.run(analyzed["entities"]["source"])
-                    if (result["success"]):
-                        return jsonify({
-                            "success": True,
-                            "title": "IMAGE RUNNING",
-                            "message": result["message"]
-                        })
-                    else:
-                        if (result["code"] == "ADM-11"):
-                            return jsonify({
-                                "success": False,
-                                "title": "IMAGE PULLED",
-                                "message": result["message"]
-                            })
-                        else:
-                            return jsonify({
-                                "success": False,
-                                "title": "ERROR",
-                                "message": result["message"]
-                            })
-                else:
-                    return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
-            else:
-                return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
-        else:
-            return jsonify({"success": False, "code": "NLP-010", "message": "No intent recognized."})
-    else:
-        return jsonify({"success": False, "code": "NLP-001", "message": "No phrase to analyse."})
+        elif intent == "kill-container":
+            return jsonify(contaiers.nlp_kill(intent, entities))
+        return jsonify({"success": False, "code": "NLP-001", "message": "I did not understand this sentence"})
 
 
 @app.route('/info', methods=["POST"])

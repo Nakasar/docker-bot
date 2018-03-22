@@ -88,3 +88,17 @@ def kill(container_name):
             return {"success": False, "code": "ADM-06", "message": "Container not stoppable.", "name": container_name}
     except:
         return {"success": False, "code": "ADM-02", "message": "No container running with this name.", "name": container_name}
+
+def nlp_kill(intent, entities):
+    entities_names = [entity.name for entity in entities]
+    try:
+        name = entities[entities_names.index("target")].value)
+    except:
+        name = None
+    return kill(name)
+
+
+
+
+
+    
