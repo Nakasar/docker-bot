@@ -63,4 +63,4 @@ def nlp_listLogs(intent, entities):
     except:
         until = datetime.now().strftime('%m-%d/%H:%M:%S')
 
-    return jsonify(listLogs(target, number, error, since, until))
+    return listLogs(target, number, error, since, until)

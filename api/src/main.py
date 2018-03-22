@@ -14,7 +14,7 @@ def endpointNlp():
         intent = analyzed["intent"]
         entities = analyzed["entities"]
         if intent == "logs":
-            logs.nlp_listLogs(intent, entities)
+            return jsonify(logs.nlp_listLogs(intent, entities))
         elif intent == "run":
             if "entities" in analyzed.keys():
                 if "source" in analyzed["entities"]:
