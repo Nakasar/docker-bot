@@ -30,7 +30,7 @@ def endpointNlp():
             try:
                 error = entities[entities_names.index("error")].value
             except:
-                target = False
+                error = False
 
             try:
                 since = entities[entities_names.index("since")].start
@@ -41,7 +41,6 @@ def endpointNlp():
                 until = entities[entities_names.index("until")].end
             except:
                 until = datetime.now().strftime('%m-%d/%H:%M:%S')
-
             return jsonify(logs.listLogs(target, number, error, since, until))
         elif intent == "run":
             if "entities" in analyzed.keys():
