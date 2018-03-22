@@ -233,8 +233,8 @@ module.exports = function(robot) {
       robot.messageRoom(message.message.room, {
         channel: message.message.room,
         attachments: [{
-          title: body.data.title,
-          text: body.data.message,
+          title: body.title,
+          text: body.message,
           color: "#00BB00"
         }]
       });
