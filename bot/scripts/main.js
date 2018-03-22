@@ -287,11 +287,17 @@ module.exports = function(robot) {
   }
 
   function handlePhraseResponse(err, res, body, message) {
-    console.log(body)
     if (!err && body.success) {
-
+      robot.messageRoom(message.message.room, {
+        channel: message.room,
+        attachments: [{
+          title: body.title,
+          text: body.message,
+          color: "#BB00BB"
+        }]
+      });
     } else if (!err) {
-
+      sendError(message, { title: body.title, error: body.message, code: body.code });
     } else {
       sendError();
     }
