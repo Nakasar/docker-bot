@@ -12,46 +12,64 @@ def endpointNlp():
     phrase = request.json["phrase"]
     if (len(phrase) > 0):
         analyzed = nlp.analyse(phrase)
-        if "intent" in analyzed.keys():
-            intent = analyzed["intent"]
-            if intent == "logs":
-                if "entities" in analyzed.keys():
-                    options = {"target": None, "number": -1, "interval": {"since": "01-01/00:00:00", "until": datetime.now().strftime('%m-%d/%H:%M:%S')}, "datetime": '01-01/00:00:00'}
-                    for param in options.keys():
-                        if param in analyzed["entities"].keys():
-                            options[param] = analyzed["entities"][param]
-                    return jsonify(logs.listLogs(options["target"], options["number"], False, "01-01/00:00:00", datetime.now().strftime('%m-%d/%H:%M:%S')))
-                else:
-                    return jsonify({"success": False, "code": "NLP-011", "title": "LOGS", "message": "LOGS : No entities recognized."})
-            elif intent == "run":
-                if "entities" in analyzed.keys():
-                    if "source" in analyzed["entities"]:
-                        result = images.run(analyzed["entities"]["source"])
-                        if (result["success"]):
+        intent = analyzed["intent"]
+        entities = analyzed["entities"]
+        if intent == "logs":
+            entities_names = [entity.name for entity in entities]
+            # Parse of Default parameters for LOGS command
+            try:
+                target = entities[entities_names.index("target")].value
+            except:
+                target = None
+
+            try:
+                number = entities[entities_names.index("number")].scalar
+            except:
+                number = None
+
+            try:
+                error = entities[entities_names.index("error")].value
+            except:
+                target = False
+
+            try:
+                since = entities[entities_names.index("since")].start
+            except:
+                since = "01-01/00:00:00"
+
+            try:
+                until = entities[entities_names.index("until")].end
+            except:
+                until = datetime.now().strftime('%m-%d/%H:%M:%S')
+
+            return jsonify(logs.listLogs(target, number, error, since, until))
+        elif intent == "run":
+            if "entities" in analyzed.keys():
+                if "source" in analyzed["entities"]:
+                    result = images.run(analyzed["entities"]["source"])
+                    if (result["success"]):
+                        return jsonify({
+                            "success": True,
+                            "title": "IMAGE RUNNING",
+                            "message": result["message"]
+                        })
+                    else:
+                        if (result["code"] == "ADM-11"):
                             return jsonify({
-                                "success": True,
-                                "title": "IMAGE RUNNING",
+                                "success": False,
+                                "title": "IMAGE PULLED",
                                 "message": result["message"]
                             })
                         else:
-                            if (result["code"] == "ADM-11"):
-                                return jsonify({
-                                    "success": False,
-                                    "title": "IMAGE PULLED",
-                                    "message": result["message"]
-                                })
-                            else:
-                                return jsonify({
-                                    "success": False,
-                                    "title": "ERROR",
-                                    "message": result["message"]
-                                })
-                    else:
-                        return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
+                            return jsonify({
+                                "success": False,
+                                "title": "ERROR",
+                                "message": result["message"]
+                            })
                 else:
                     return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
             else:
-                return jsonify({"success": False, "code": "NLP-010", "message": "No intent recognized."})
+                return jsonify({"success": False, "code": "NLP-011", "title": "ADMIN - RUN", "message": "RUN : No entities recognized."})
         else:
             return jsonify({"success": False, "code": "NLP-010", "message": "No intent recognized."})
     else:
