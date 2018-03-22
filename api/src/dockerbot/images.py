@@ -80,4 +80,4 @@ def nlp_run(intent, entities):
 
 
 def nlp_info(intent, entities):
-    return listImages()
+    return {"success": True, "title": "IMAGES", "message": "> List of local images:\n" + "\n".join(listImages())}

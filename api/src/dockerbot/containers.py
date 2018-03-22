@@ -103,4 +103,4 @@ def nlp_info(intent, entities):
         name = entities[entities_names.index("target")].value
     except:
         name = None
-    return listContainers() if name is None else process(name)
+    return {"success": True, "title": "CONTAINERS", "message": "> List of running containers:\n" + "\n".join(listContainers())} if name is None else process(name)
