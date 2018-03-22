@@ -26,6 +26,7 @@ def endpointNlp():
             try:
                 entity_type = entities[entities_names.index("type")].value
                 if (entity_type in "images"):
+                    return images.nlp_info(intent, entities)
                 else:
                     return containers.nlp_info(intent, entities)
             except:
