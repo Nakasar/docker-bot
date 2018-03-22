@@ -23,7 +23,7 @@ def listImages():
         return []
 
 
-def run(image):
+def run(image, version="latest"):
     """
     Tries to recover the given image in cache, otherwise looks into docker repos.
 
@@ -41,7 +41,7 @@ def run(image):
     """
     try:
         # Search for image in local cache
-        foundImage = client.images.get(image)
+        foundImage = client.images.get("{0}:{1}".format(image, version))
         try:
             # Run image
             container = client.containers.run(foundImage, detach=True)
@@ -53,7 +53,7 @@ def run(image):
     except:
         try:
             # Search for image on docker repos
-            pulledImage = client.images.pull("{}:latest".format(image))
+            pulledImage = client.images.pull("{0}:{1}".format(image, version))
             return {"success": False, "code": "ADM-11", "message": "Image found and pulled, run it with `!docker admin run {}`".format(pulledImage.tags[0])}
         except:
             # No image found on docker repos
@@ -77,4 +77,4 @@ def nlp_run(intent, entities):
     if (version[0] == ':'):
         version = version[1:]
 
-    return run(image_name + ':' + version)
+    return run(image_name, version)
