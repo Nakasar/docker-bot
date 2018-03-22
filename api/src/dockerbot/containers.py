@@ -92,13 +92,7 @@ def kill(container_name):
 def nlp_kill(intent, entities):
     entities_names = [entity.name for entity in entities]
     try:
-        name = entities[entities_names.index("target")].value)
+        name = entities[entities_names.index("target")].value
     except:
         name = None
     return kill(name)
-
-
-
-
-
-    
