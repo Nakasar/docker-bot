@@ -80,6 +80,9 @@ module.exports = function(robot) {
   */
   robot.respond(/(.*)/, function(message) {
     let phrase = message.match[1];
+    if (phrase.startsWith("!")) {
+      return;
+    }
     request({
       baseUrl: apiUrl,
       uri: "/nlp",
