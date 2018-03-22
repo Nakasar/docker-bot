@@ -27,12 +27,15 @@ def listLogs(container_name, limit, error, since, until):
     """
     try:
         container = client.containers.get(container_name)
+        title = 'LOGS : {0}'.format(container.name)
+        print(title, file=stderr)
         message = "\n".join([ e for e in str(container.logs(
             stdout=True,
             stderr=True,
             since=datetime.strptime(since, '%m-%d/%H:%M:%S').replace(year=datetime.now().year),
             until=datetime.strptime(until, '%m-%d/%H:%M:%S').replace(year=datetime.now().year)
-        ), 'utf-8').split('\n')[:limit] if 'error' in e.lower() or not(error) ])
-        return { "success":True, 'title':'LOGS : ' + container.name, "message": message }
+        ), 'utf-8').split('\n')[:limit] if 'error' in e.lower() or not(error)])
+        print(message, file=stderr)
+        return { "success":True, "title": title, "message": message }
     except:
         return { "success":False, "code":"LOG-01" }
