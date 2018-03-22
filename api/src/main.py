@@ -26,11 +26,11 @@ def endpointNlp():
             try:
                 entity_type = entities[entities_names.index("type")].value
                 if (entity_type in "images"):
-                    return images.nlp_info(intent, entities)
+                    return jsonify(images.nlp_info(intent, entities))
                 else:
-                    return containers.nlp_info(intent, entities)
+                    return jsonify(containers.nlp_info(intent, entities))
             except:
-                return containers.nlp_info(intent, entities)
+                return jsonify(containers.nlp_info(intent, entities))
 
         return jsonify({"success": False, "code": "NLP-001", "message": "I did not understand this sentence"})
 

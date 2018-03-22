@@ -100,6 +100,7 @@ def nlp_kill(intent, entities):
 def nlp_info(intent, entities):
     entities_names = [entity.name for entity in entities]
     try:
-        return process(entities[entities_names.index("target")].value)
+        name = entities[entities_names.index("target")].value
     except:
-        return listContainers()
+        name = None
+    return listContainers() if name is None else process(name)
