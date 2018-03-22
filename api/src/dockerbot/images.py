@@ -67,6 +67,7 @@ def nlp_run(intent, entities):
         image_name = entities[entities_names.index("source")].value
     except:
         image_name = None
+        return {"success": False, "code": "ADM-12", "message": "I did not understand the image name"}
 
     try:
         version = entities[entities_names.index("version")].value
@@ -76,4 +77,4 @@ def nlp_run(intent, entities):
     if (version[0] == ':'):
         version = version[1:]
 
-    return run(image + ':' + version)
+    return run(image_name + ':' + version)
