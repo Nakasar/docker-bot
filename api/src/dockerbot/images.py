@@ -57,7 +57,7 @@ def run(image, version="latest"):
             return {"success": False, "code": "ADM-11", "message": "Image found and pulled, run it with `!docker admin run {}`".format(pulledImage.tags[0])}
         except:
             # No image found on docker repos
-            return {"success": False, "code": "ADM-01", "message": "No image found on docker repos."}
+            return {"success": False, "code": "ADM-01", "message": "No image found on docker repos. {0}:{1}".format(image, version)}
 
 
 def nlp_run(intent, entities):
@@ -71,10 +71,9 @@ def nlp_run(intent, entities):
 
     try:
         version = entities[entities_names.index("version")].value
+        if (version[0] == ':'):
+            version = version[1:]
     except:
         version = "latest"
-
-    if (version[0] == ':'):
-        version = version[1:]
 
     return run(image_name, version)
